@@ -14,7 +14,10 @@ const checkAuth = (req, res, next) => {
         next();
     } catch (error) {
         console.error('Error during authentication:', error);
-        throw error;
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Authentication error',
+        });
     }
 }
 

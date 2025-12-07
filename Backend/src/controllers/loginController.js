@@ -1,7 +1,7 @@
-// const Alumni = require("../models/alumniModel");
+const Alumni = require("../models/alumniModel");
 // const { Admin } = require("../models/adminModel");
 const { User } = require("../models/user");
-// const {College} = require('../models/collegeModel');
+const { College } = require("../models/collegeModel");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const loginController = async (req, res) => {
@@ -18,12 +18,12 @@ const loginController = async (req, res) => {
           status: "fail",
           message: "Alumni not found",
         });
-      } else if (alumni.isApproved === false) {
-        res.status(403).json({
-          status: "fail",
-          message:
-            "Alumni not approved, Please contact the administrator for assistance.",
-        });
+      // } else if (alumni.isApproved === false) {
+      //   res.status(403).json({
+      //     status: "fail",
+      //     message:
+      //       "Alumni not approved, Please contact the administrator for assistance.",
+      //   });
       } else {
         if (alumni.password === password) {
           // generate token

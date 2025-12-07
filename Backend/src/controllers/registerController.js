@@ -1,6 +1,6 @@
 // controllers/registerController.js
 const Alumni = require("../models/alumniModel");
-const { User } = require("../models/user"); // Replace with your User model
+const { User } = require("../models/user");
 
 const registerController = async (req, res) => {
   try {
@@ -38,6 +38,7 @@ const registerController = async (req, res) => {
       user: newUser._id,
       email,
       password,
+      role,
       startYear,
       endYear,
       degree,

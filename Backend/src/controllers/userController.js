@@ -1,4 +1,4 @@
-const { User } = require("../models/userModel");
+const { User } = require("../models/user");
 
 // Function to fetch all users
 async function getAllUsers(req, res) {
@@ -22,7 +22,7 @@ async function getAllUsers(req, res) {
 // Function to fetch alumni users whose isApproved is false
 async function getUnapprovedAlumni(req, res) {
   try {
-    const alumni = await User.find({ role: "alumni", isApproved: false });
+    const alumni = await User.find({ role: "alumni", isApproved: true });
 
     res.status(200).json({
       status: "success",
@@ -39,7 +39,41 @@ async function getUnapprovedAlumni(req, res) {
   }
 }
 
+// Function to approve alumni
+async function approveAlumni(req, res) {
+  try {
+    const { userId } = req.params;
+    const updatedAlumni = await User.findByIdAndUpdate(
+      userId,
+      { isApproved: true },
+      { new: true }
+    );
+
+    if (!updatedAlumni) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Alumni not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Alumni approved successfully",
+      data: {
+        alumni: updatedAlumni,
+      },
+    });
+  } catch (error) {
+    console.error("Error during approving alumni:", error);
+    res.status(500).json({
+      status: "fail",
+      message: "Internal Server Error",
+    });
+  }
+}
+
 module.exports = {
   getAllUsers,
   getUnapprovedAlumni,
+  approveAlumni,
 };
